@@ -38,7 +38,7 @@ def query_single_page(url, html_response=True, retry=3):
             json_resp = response.json()
             html = json_resp['items_html']
 
-        tweets = list(Tweet.from_html(html))
+        tweets = list(Tweet.all_tweets_from_html(html))
 
         if not tweets:
             return [], None
