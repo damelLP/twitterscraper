@@ -26,7 +26,7 @@ class Tweet:
         return cls(
             user=tweet['data-name'],
             user_id=tweet['data-user-id'],
-            id=tweet['data-item-id'],
+            tweet_id=tweet['data-item-id'],
             timestamp=datetime.utcfromtimestamp(
                 int(tweet.find('span', '_timestamp')['data-time'])),
             fullname=tweet.find('strong', 'fullname').text,
