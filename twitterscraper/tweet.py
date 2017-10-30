@@ -21,6 +21,14 @@ class Tweet:
         return f"{self.timestamp}, {self.user}, {self.user_id}, {self.text}, " \
                f"{self.tweet_id}, {self.replies}, {self.retweets}, {self.likes}"
 
+    def as_csv_row(self):
+        return [self.timestamp, self.user, self.user_id, self.text, self.tweet_id,
+                self.replies, self.retweets,self.likes]
+
+    @classmethod
+    def csv_headings(cls):
+        return ['timestamp', 'user', 'user_id', 'text', 'tweet_id', 'replies', 'retweets', 'likes']
+
     @classmethod
     def from_soup(cls, tweet):
         return cls(
@@ -33,13 +41,13 @@ class Tweet:
             text=tweet.find('p', 'tweet-text').text or "",
 
             replies=tweet.find('div', 'ProfileTweet-action--reply')
-            .find('span', 'ProfileTweet-actionCountForPresentation').text or '0',
+                        .find('span', 'ProfileTweet-actionCountForPresentation').text or '0',
 
             retweets=tweet.find('div', 'ProfileTweet-action--retweet')
-            .find('span', 'ProfileTweet-actionCountForPresentation').text or '0',
+                        .find('span', 'ProfileTweet-actionCountForPresentation').text or '0',
 
             likes=tweet.find('div', 'ProfileTweet-action--favorite')
-            .find('span', 'ProfileTweet-actionCountForPresentation').text or '0'
+                        .find('span', 'ProfileTweet-actionCountForPresentation').text or '0'
         )
 
     @classmethod
@@ -60,4 +68,3 @@ class Tweet:
                     yield cls.from_soup(tweet)
                 except AttributeError:
                     pass  # Incomplete info? Discard!
-
